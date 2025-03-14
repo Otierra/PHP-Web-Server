@@ -1,42 +1,44 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION["usuario"])) {
-    header("Location: login.php");
-    exit();
-}
+    if (!isset($_SESSION["usuario"])) {
+        header("Location: login.php");
+        exit();
+    }
+            
+    $usuarioActivo = isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : (isset($_COOKIE["usuario"]) ? $_COOKIE["usuario"] : "");
+    $tipoUsuario = isset($_SESSION["tipoUser"]) ? $_SESSION["tipoUser"] : (isset($_COOKIE["tipoUser"]) ? $_COOKIE["tipoUser"] : "");            
 
-$usuarioActivo = isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : (isset($_COOKIE["usuario"]) ? $_COOKIE["usuario"] : "");
-$tipoUsuario = isset($_SESSION["tipoUser"]) ? $_SESSION["tipoUser"] : (isset($_COOKIE["tipoUser"]) ? $_COOKIE["tipoUser"] : "");
-
-include_once("Contacto.php");
-$contacto = new Contacto();
-$arr = $contacto->listar();
+    include_once("Contacto.php");
+    $contacto = new Contacto();
+    $arr = $contacto->listar();
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Contactos</title>
-</head>
-<body>
-    <h2>Usuario Activo: <?php echo htmlspecialchars($usuarioActivo); ?></h2>
-    <table>
-        <tr>
-            <th>Id</th> <th>Nombre</th> <th>Correo</th> <th>Telefono</th> <th>Operaciones</th>
-        </tr>
+<html>
 
-        <?php if (!empty($arr)) { 
-            foreach ($arr as $c) { ?>
-                <tr>
-                    <td><?php echo $c->id; ?></td>
-                    <td><?php echo $c->nombres; ?></td>
-                    <td><?php echo $c->correo; ?></td>
-                    <td><?php echo $c->telefono; ?></td>
-                    
-                    <?php if ($tipoUsuario === "tipoUser1") { ?>
+    <head></head>
+
+    <body>
+        
+
+        <h2>Usuario Activo: <?php echo htmlspecialchars($usuarioActivo); ?></h2>
+        <table>
+            <tr>
+                <th>Id</th> <th>Nombre</th> <th>Correo</th> <th>Telefono</th> <th>Operaciones</th>
+            </tr>
+
+            <?php
+                if (!empty($arr)) { 
+                    foreach($arr as $c){
+            ?>
+
+            <tr>
+                <td><?php echo $c->id;?></td>
+                <td><?php echo $c->nombres;?></td>
+                <td><?php echo $c->correo;?></td>
+                <td><?php echo $c->telefono;?></td>
+
+                <?php if ($tipoUsuario == "1") { ?>
                         <td>
                             <form action="eliminar_contacto.php" method="post">
                                 <input type="hidden" value="<?php echo $c->id; ?>" name="id">
@@ -52,12 +54,20 @@ $arr = $contacto->listar();
                                 <input type="submit" value="Modificar">
                             </form>
                         </td>
-                    <?php } ?>
-                </tr>
-        <?php }
-        } ?>
-    </table>
-    
-    <a href="alta.php">Agregar Contacto</a>
-</body>
+                <?php } ?>
+
+            </tr>
+            
+            <?php
+                    }
+                }
+            ?>
+        
+
+        </table>
+
+        <a href="alta.php">Agregar Contacto</a>
+
+    </body>
+
 </html>
