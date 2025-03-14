@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             setcookie("usuario", $usuario["user"], time() + (7 * 24 * 60 * 60), "/");
             setcookie("tipoUser", $usuario["tipoUser"], time() + (7 * 24 * 60 * 60), "/");
             
-            header("Location: lista-contactos.php");
+            header("Location: lista-contacto.php");
             exit();
         } else {
             $error = "Usuario o contraseña incorrecta.";
