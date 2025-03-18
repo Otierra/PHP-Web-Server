@@ -32,6 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Usuario no encontrado.";
     }
 }
+
+$usuarioCookie = isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : "";
 ?>
 
 <!DOCTYPE html>
@@ -42,13 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
 </head>
 <body>
+
+    <?php if (!empty($usuarioCookie)): ?>
+        <h2>Bienvenido, <?php echo htmlspecialchars($usuarioCookie); ?>!</h2>
+    <?php endif; ?>
+
     <h2>Iniciar Sesión</h2>
+    
     <?php if (isset($error)) { echo "<p style='color:red;'>$error</p>"; } ?>
 
     <form action="" method="POST"> 
-        Usuario: <input type="text" name="user" required value="<?php echo isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : ''; ?>"><br>
+        Usuario: <input type="text" name="user" required value="<?php echo htmlspecialchars($usuarioCookie); ?>"><br>
         Contraseña: <input type="password" name="passw" required><br>
         <input type="submit" value="Iniciar Sesión">
     </form>
+    
 </body>
 </html>
