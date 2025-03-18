@@ -16,58 +16,64 @@
 
 <html>
 
-    <head></head>
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
 
-    <body>
+<body>
+
+    <h2>Usuario Activo: <?php echo htmlspecialchars($usuarioActivo); ?></h2>
+    
+    <a href="logout.php">Cerrar Sesión</a> <!-- Enlace para cerrar sesión -->
+
+    <table>
+        <tr>
+            <th>Id</th> <th>Nombre</th> <th>Correo</th> <th>Telefono</th> <th>Operaciones</th>
+        </tr>
+
+        <?php
+            if (!empty($arr)) { 
+                foreach($arr as $c){
+        ?>
+
+        <tr>
+            <td><?php echo $c->id;?></td>
+            <td><?php echo $c->nombres;?></td>
+            <td><?php echo $c->correo;?></td>
+            <td><?php echo $c->telefono;?></td>
+
+            <?php if ($tipoUsuario == "1") { ?>
+                    <td>
+                        <form action="eliminar_contacto.php" method="post">
+                            <input type="hidden" value="<?php echo $c->id; ?>" name="id">
+                            <input type="submit" value="Eliminar">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="alta.php" method="post">
+                            <input type="hidden" value="<?php echo $c->id; ?>" name="id">
+                            <input type="hidden" value="<?php echo $c->nombres; ?>" name="nombre">
+                            <input type="hidden" value="<?php echo $c->telefono; ?>" name="telefono">
+                            <input type="hidden" value="<?php echo $c->correo; ?>" name="correo">
+                            <input type="submit" value="Modificar">
+                        </form>
+                    </td>
+            <?php } ?>
+
+        </tr>
         
-
-        <h2>Usuario Activo: <?php echo htmlspecialchars($usuarioActivo); ?></h2>
-        <table>
-            <tr>
-                <th>Id</th> <th>Nombre</th> <th>Correo</th> <th>Telefono</th> <th>Operaciones</th>
-            </tr>
-
-            <?php
-                if (!empty($arr)) { 
-                    foreach($arr as $c){
-            ?>
-
-            <tr>
-                <td><?php echo $c->id;?></td>
-                <td><?php echo $c->nombres;?></td>
-                <td><?php echo $c->correo;?></td>
-                <td><?php echo $c->telefono;?></td>
-
-                <?php if ($tipoUsuario == "1") { ?>
-                        <td>
-                            <form action="eliminar_contacto.php" method="post">
-                                <input type="hidden" value="<?php echo $c->id; ?>" name="id">
-                                <input type="submit" value="Eliminar">
-                            </form>
-                        </td>
-                        <td>
-                            <form action="alta.php" method="post">
-                                <input type="hidden" value="<?php echo $c->id; ?>" name="id">
-                                <input type="hidden" value="<?php echo $c->nombres; ?>" name="nombre">
-                                <input type="hidden" value="<?php echo $c->telefono; ?>" name="telefono">
-                                <input type="hidden" value="<?php echo $c->correo; ?>" name="correo">
-                                <input type="submit" value="Modificar">
-                            </form>
-                        </td>
-                <?php } ?>
-
-            </tr>
-            
-            <?php
-                    }
+        <?php
                 }
-            ?>
-        
+            }
+        ?>
+    
 
-        </table>
+    </table>
 
-        <a href="alta.php">Agregar Contacto</a>
+    <a href="alta.php">Agregar Contacto</a>
 
-    </body>
+</body>
 
 </html>
