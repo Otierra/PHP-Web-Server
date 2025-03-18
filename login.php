@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["usuario"] = $usuario["user"];
             $_SESSION["tipoUser"] = $usuario["tipoUser"];
             
-            // Establecer cookies por 7 días
             setcookie("usuario", $usuario["user"], time() + (7 * 24 * 60 * 60), "/");
             setcookie("tipoUser", $usuario["tipoUser"], time() + (7 * 24 * 60 * 60), "/");
             
